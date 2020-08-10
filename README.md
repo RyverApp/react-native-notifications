@@ -6,7 +6,9 @@
 
 Handle all the aspects of push notifications for your app, including remote and local notifications, interactive notifications, silent notifications, and more.
 
-**All the native iOS notifications features are supported!** 
+**Note:** This fork adds support for Critical Alerts in iOS
+
+**All the native iOS notifications features are supported!**
 
 _For information regarding proper integration with [react-native-navigation](https://github.com/wix/react-native-navigation), follow [this wiki](https://github.com/wix/react-native-notifications/wiki/Android:-working-with-RNN)._
 

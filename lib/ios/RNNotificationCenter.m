@@ -4,7 +4,12 @@
 @implementation RNNotificationCenter
 
 - (void)requestPermissions {
-    UNAuthorizationOptions authOptions = (UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert);
+    //Hardwiring critical alert support temporarily
+    if (@available(iOS 12)) {
+        UNAuthorizationOptions authOptions = (UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionCriticalAlert);
+    } else {
+        UNAuthorizationOptions authOptions = (UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert);
+    }
     [UNUserNotificationCenter.currentNotificationCenter requestAuthorizationWithOptions:authOptions completionHandler:^(BOOL granted, NSError * _Nullable error) {
         if (!error && granted) {
             [UNUserNotificationCenter.currentNotificationCenter getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
@@ -20,7 +25,7 @@
 
 - (void)setCategories:(NSArray *)json {
     NSMutableSet<UNNotificationCategory *>* categories = nil;
-    
+
     if ([json count] > 0) {
         categories = [NSMutableSet new];
         for (NSDictionary* categoryJson in json) {
@@ -54,7 +59,7 @@
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     [center getDeliveredNotificationsWithCompletionHandler:^(NSArray<UNNotification *> * _Nonnull notifications) {
         NSMutableArray<NSDictionary *> *formattedNotifications = [NSMutableArray new];
-        
+
         for (UNNotification *notification in notifications) {
             [formattedNotifications addObject:[RCTConvert UNNotificationPayload:notification]];
         }
