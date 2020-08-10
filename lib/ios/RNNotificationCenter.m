@@ -5,6 +5,10 @@
 
 - (void)requestPermissions {
     UNAuthorizationOptions authOptions = (UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert);
+    //temp hardwire of critical alerts
+    if (@available(iOS 12.0, *)) {
+         authOptions = (authOptions | UNAuthorizationOptionCriticalAlert);
+    }
     [UNUserNotificationCenter.currentNotificationCenter requestAuthorizationWithOptions:authOptions completionHandler:^(BOOL granted, NSError * _Nullable error) {
         if (!error && granted) {
             [UNUserNotificationCenter.currentNotificationCenter getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
